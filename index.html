@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Лабораторна робота №1</title>
+  <link href="css/style.css" rel="stylesheet">
+  <script type="module" src="js/setup.js"></script>
+</head>
+<body>
+  <div class="canvas">
+    <div class="card">
+      <div class="card__header">
+        <img src="img/logo_short.png" alt="monobank logo" class="mono-logo">
+        <div class="avatar">
+          <div class="jar-state">
+            <img src="img/jar_bg.png" alt="jar image" class="jar-bg">
+            <div class="jar-container">
+              <img src="/" alt="collected money image" class="glass" id="jar-state">
+              <div class="grid-container">
+                <img src="img/jar/grid.png" alt="grid image" class="grid" id="jar-grid">
+                <div class="jar-label jar-label-upper" id="grid-upper-sum"></div>
+                <div class="jar-label jar-label-middle" id="grid-mid-sum"></div>
+                <div class="jar-label jar-label-bottom" id="grid-bottom-sum"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fund-desc">
+          <div class="jarOwner" id="fund-owner">
+            <span>The "ownerName" is missing</span>
+          </div>
+          <div class="fundName" id="fund-name">
+            <span>The "fundName" is missing</span>
+          </div>
+        </div>
+        <div class="cardInfo">
+          <div class="fundDescription" id="fund-description">
+            The "fundDescrition" is missing
+          </div>
+          <div id="jar-info">
+            <div class="stats-data">
+              <img src="img/stats/collected.svg" alt="collected" class="icon">
+              <div class="stats-data-text-container">
+                <div class="stats-data-label">
+                  Накопичено
+                </div>
+                <div class="stats-data-value">
+                  <span id="current-sum">0</span> <span>₴</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fund-fotter"></div>
+      </div>
+      <div class="card__body">
+        <div class="gradient-container">
+          <div class="jar-top-up-title">Сума поповнення<img src="img/money.png" class="money-emoji" alt="money symbol"></div>
+          <div class="money-input-container">
+            <div class="money-input-block empty">
+              <div onkeypress="return isNumericKey(event, true)" id="custom-chip" class="money-input" contenteditable="true">
+                0
+              </div>
+              <div class="money-input-trailing">
+                &nbsp;₴
+              </div>
+            </div>
+            <div class="money-input-subtitle" hidden="">
+              Сума повинна бути від 10&nbsp;₴ до 29&nbsp;999&nbsp;₴
+            </div>
+            <div class="choice-row">
+              <div tabindex="0" class="chip-button" id="chip-100">
+                <div class="main-label">
+                  +100&nbsp;₴
+                </div>
+              </div>
+              <div tabindex="0" class="chip-button" id="chip-500">
+                <div class="main-label">
+                  +500&nbsp;₴
+                </div>
+              </div>
+              <div tabindex="0" class="chip-button" id="chip-1000">
+                <div class="main-label">
+                  +1&nbsp;000&nbsp;₴
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field card-holder">
+          <input placeholder="" class="inputF" id="payment-cc-name" onchange="handleInputPrompt(this)"> <label id="x-name-field">Ваше ім'я (необов'язково)</label>
+        </div>
+        <div class="field payment-comment">
+          <input class="inputF" id="payment-comment" onchange="handleInputPrompt(this)"> <label id="x-comment-field">Коментар (необов'язково)</label>
+        </div>
+        <div id="btn_monopay" class="mono-pay pay-button" tabindex="0"><img src="img/mono_pay.svg" alt="monobank logo" class="logo"></div>
+        <div class="g-pay">
+          <div id="btn_gpay" class="mono-pay pay-button" tabindex="0"><img src="img/g_pay.svg" alt="gpay logo" class="logo"></div>
+        </div>
+        <div class="shown">
+          <div id="expand-card-input">
+            <div class="splitter"></div>
+            <div class="card-input-button" onclick="expandCardInput()">
+              <img src="img/card.svg" alt="credit card" class="card-icon">
+              <div id="btn_custompay" class="card-input-label">
+                Оплатити карткою
+              </div>
+            </div>
+          </div>
+          <div id="card-input-prompt" hidden>
+            <div class="card-splitter">
+              <div class="splitter-line"></div>
+              <div class="or-use-card">або уведіть дані карти</div>
+              <div class="splitter-line"></div>
+            </div>
+            <div class="field-err">
+              <div class="field">
+                <input class="inputF" id="payment-cc-number" onkeypress="return isNumericKey(event)" onchange="handleInputPrompt(this)"> <label>Номер карти</label>
+              </div>
+              <span class="err" id="payment-cc-number-error" hidden>Введіть номер карти</span>
+            </div>
+            <div class="field subfield">
+              <div class="subfield-err">
+                <div class="subfield">
+                  <input class="inputF" id="payment-cc-month" maxlength="2" onkeypress="return isNumericKey(event)" onchange="handleInputPrompt(this)"> <label>Місяць</label>
+                </div>
+                <span class="err" id="payment-cc-month-error" hidden>Помилка</span>
+              </div>
+              <span class="borderline"></span>
+              <div class="subfield-err">
+                <div class="subfield">
+                  <input class="inputF" id="payment-cc-year" maxlength="2" onkeypress="return isNumericKey(event)" onchange="handleInputPrompt(this)"> <label>Рік</label>
+                  <span class="err" id="payment-cc-year-error" hidden>Помилка</span>
+                </div>
+              </div>
+              <span class="borderline"></span>
+              <div class="subfield-err">
+                <div class="subfield">
+                  <input class="inputF" id="payment-cc-cv2" maxlength="3" onkeypress="return isNumericKey(event)" onchange="handleInputPrompt(this)"> <label>CVC2</label>
+                  <span class="err" id="payment-cc-cv2-error" hidden>Помилка</span>
+                </div>
+              </div>
+            </div>
+            <div class="pay-btn disable" id="payment-cc-button">
+              Поповнити банку
+            </div>
+          </div>
+          <div class="button-transmit-chip"></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="footer-copyright">
+        АТ «УНІВЕРСАЛ БАНК» Ліцензія НБУ №92 від<br>
+        20.01.1994, у держреєстрі банків №226
+      </div>
+      <div class="footer-button">
+        <div class="widget-button" tabindex="0">
+          <div class="widget-button-icon">
+            <img src="/img/cup.svg" alt="cup image">
+            <div class="widget-button-icon-text">
+              Провести розіграш
+            </div>
+          </div>
+        </div>
+        <div class="widget-button" tabindex="0">
+          <div class="widget-button-icon">
+            <img src="/img/gamepad.svg" alt="gamepad image">
+            <div class="widget-button-icon-text">
+              Віджет для стрімів
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/input-handler.js"></script>
+</body>
+</html>
