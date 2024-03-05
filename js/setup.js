@@ -21,6 +21,24 @@ document.addEventListener('DOMContentLoaded', function() {
             this.value = parseCardNumber(this.value);
         };
 
+        document.getElementById("payment-cc-month").oninput = function() {
+            const month = document.getElementById("payment-cc-month-error");
+            if (isCorrectMonth(this.value)) {
+                month.setAttribute("hidden", true);
+            } else {
+                month.removeAttribute("hidden");
+            }
+        }
+
+        document.getElementById("payment-cc-year").oninput = function() {
+            const year = document.getElementById("payment-cc-year-error");
+            if (this.value > 0) {
+                year.setAttribute("hidden", true);
+            } else {
+                year.removeAttribute("hidden");
+            }
+        }
+
         var moneyInput = document.getElementById("custom-chip")
         moneyInput.addEventListener("input", function(event){
             parseCustomChip(event, moneyInput);
@@ -60,6 +78,10 @@ function updateSendMoneyBtn() {
     } else {
         btn.classList.add("disable");
     }
+}
+
+function isCorrectMonth(value) {
+    return value >= 1 && value <= 12;
 }
 
 function parseCustomChip(event, input) {
