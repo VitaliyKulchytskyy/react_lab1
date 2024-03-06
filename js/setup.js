@@ -68,8 +68,8 @@ function handlerConfirmFormButton() {
 
 function updateSendMoneyBtn() {
     var isFilledCard = document.getElementById("payment-cc-number").value.length == 19;
-    var isFilledMonth = document.getElementById("payment-cc-month").value.length > 0;
-    var isFilledYear = document.getElementById("payment-cc-year").value.length > 0;
+    var isFilledMonth = isCorrectMonth(document.getElementById("payment-cc-month").value);
+    var isFilledYear = document.getElementById("payment-cc-year").value > 0;
     var isFilledCv2 = document.getElementById("payment-cc-cv2").value.length == 3;
     var btn = document.getElementById("payment-cc-button");
 
@@ -259,7 +259,13 @@ function handlerPaymentButtons(fundInfo) {
     };
 
     for (const [btnId, bankName] of Object.entries(bankButtons)) {
-        document.getElementById(btnId).addEventListener("click", function () {
+        const elem = document.getElementById(btnId);
+        elem.addEventListener("click", function () {
+            if (elem.classList.contains('disable')) {
+                console.log("here");
+                return;
+            }
+
             var paymentInfo = getPaymentInfo(bankName);
             if (paymentInfo["chip"] < window.minChip) {
                 customChipHandler(0);
